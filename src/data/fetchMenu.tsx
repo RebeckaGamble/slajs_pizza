@@ -15,7 +15,7 @@ export async function fetchMenu() {
         }
       );
       const result = await response.json();
-      console.log("menu res: ", result)
+    //   console.log("menu res: ", result)
       return result.items; // Return the fetched result
     } catch (error) {
       console.error("Fetch menu failed:", error); // Log or handle error
