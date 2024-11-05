@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FiShoppingCart } from "react-icons/fi";
 
 type MenuItemProps = {
   description: string;
@@ -27,6 +28,11 @@ const MenuItem = ({
     setOpenItemId(openItemId === id ? null : id);
   };
 
+  const handleAddToCart = () => {
+    console.log('pressed add to cart');
+    
+  }
+
   return (
     <li className="container list-type-none space-y-2">
       <div className="flex flex-col space-x-1 w-[300px]">
@@ -35,6 +41,9 @@ const MenuItem = ({
         <p>
           <b>Price</b> {price} SEK
         </p>
+          <button onClick={handleAddToCart}>
+           Add to <FiShoppingCart />
+          </button>
       </div>
 
       <button onClick={() => toggleReadMore(id)}>
