@@ -12,9 +12,9 @@ interface OrderContextType {
   setOrder: React.Dispatch<React.SetStateAction<OrderItem[]>>;
 }
 
-export const OrderContext = createContext<OrderContextType | undefined>(
-  undefined
-);
+// Remove undefined from the type and enforce provider usage. Why?
+// By ensuring OrderContext is always defined, you eliminate the need to handle undefined cases every time you consume the context. This makes your code cleaner and reduces the likelihood of runtime errors
+export const OrderContext = createContext<OrderContextType>(null as any);
 
 type ProviderProps = {
   children: React.ReactNode | React.ReactNode[];

@@ -1,15 +1,16 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { FiShoppingCart } from "react-icons/fi";
+import { OrderContext } from "../../context/OrderContext";
 
 type MenuItemProps = {
-  description: string;
+  description?: string;
   id: string;
-  imgUrl: string;
+  imgUrl?: string;
   name: string;
   price: number;
   toppings?: string[];
   ingredients?: string[];
-  type: "pizza" | "salad" | "drink";
+  type?: "pizza" | "salad" | "drink";
 };
 
 const MenuItem = ({
@@ -22,6 +23,12 @@ const MenuItem = ({
   ingredients,
   type,
 }: MenuItemProps) => {
+  const orderContext = useContext(OrderContext);
+  if (!orderContext) {
+    throw new Error("OrderContext must be used within an OrderProvider");
+  }
+  const { setOrder } = orderContext;
+  
   const [openItemId, setOpenItemId] = useState<string | null>(null);
 
   const toggleReadMore = (id: string) => {
@@ -29,9 +36,16 @@ const MenuItem = ({
   };
 
   const handleAddToCart = () => {
-    console.log('pressed add to cart');
-    
-  }
+    setOrder((prevOrder) => [
+      ...prevOrder,
+      {
+        id,
+        name,
+        quantity: 1,
+        price,
+      },
+    ]);
+  };
 
   return (
     <li className="container list-type-none space-y-2">
@@ -41,9 +55,9 @@ const MenuItem = ({
         <p>
           <b>Price</b> {price} SEK
         </p>
-          <button onClick={handleAddToCart}>
-           Add to <FiShoppingCart />
-          </button>
+        <button onClick={handleAddToCart}>
+          Add to <FiShoppingCart />
+        </button>
       </div>
 
       <button onClick={() => toggleReadMore(id)}>

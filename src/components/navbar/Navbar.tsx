@@ -1,13 +1,28 @@
+import { useContext } from "react";
 import { FiShoppingCart } from "react-icons/fi";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { OrderContext } from "../../context/OrderContext";
 
 const Navbar = () => {
+  const orderContext = useContext(OrderContext);
+  if (!orderContext) {
+    throw new Error("OrderContext must be used within an OrderProvider");
+  }
+  const { order } = orderContext;
+
   return (
     <div>
-      <Link to={"/"}>Slajs Pizza</Link>
-      <Link to={"/checkout"}>
+      <NavLink to={"/"}>Slajs Pizza</NavLink>
+      <NavLink
+        to={"/checkout"}
+        aria-label="Cart"
+        className="flex items-center gap-2"
+      >
         <FiShoppingCart />
-      </Link>
+        <span className="text-xs text-[#f3929c] font-bold ">
+          {order.length}
+        </span>
+      </NavLink>
     </div>
   );
 };
