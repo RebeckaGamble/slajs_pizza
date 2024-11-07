@@ -10,6 +10,10 @@ const Navbar = () => {
   }
   const { order } = orderContext;
 
+  const totalAmount = order.reduce((total, item) => {
+    return total + item.quantity;
+  }, 0);
+
   return (
     <div className="w-full flex h-[60px] items-center justify-between bg-slate-100 px-4">
       <NavLink to={"/"}>Slajs Pizza</NavLink>
@@ -20,7 +24,7 @@ const Navbar = () => {
       >
         <FiShoppingCart />
         <span className="text-xs text-[#f3929c] font-bold bg-white rounded-full size-5 items-center">
-          {order.length}
+          {totalAmount}
         </span>
       </NavLink>
     </div>
