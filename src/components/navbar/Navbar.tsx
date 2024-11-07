@@ -11,7 +11,7 @@ const Navbar = () => {
   const { order } = orderContext;
 
   return (
-    <div>
+    <div className="w-full flex h-[60px] items-center justify-between bg-slate-100 px-4">
       <NavLink to={"/"}>Slajs Pizza</NavLink>
       <NavLink
         to={"/checkout"}
@@ -19,7 +19,7 @@ const Navbar = () => {
         className="flex items-center gap-2"
       >
         <FiShoppingCart />
-        <span className="text-xs text-[#f3929c] font-bold ">
+        <span className="text-xs text-[#f3929c] font-bold bg-white rounded-full size-5 items-center">
           {order.length}
         </span>
       </NavLink>
