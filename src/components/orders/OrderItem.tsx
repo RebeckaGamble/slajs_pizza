@@ -10,12 +10,14 @@ const OrderItem = ({ id, name, price, quantity }: OrderItemProps) => {
 
   return (
     <li key={id}>
-      <div className="flex flex-col space-x-1 w-[300px]">
-        <h3 className="text-xl font-semibold">{name}</h3>
-        <p>
-          <b>Price</b> {price} SEK
+      <div className="flex flex-col space-y-1 w-[300px]">
+        <h4 className="text-lg font-semibold">{name}</h4>
+        <p className="font-semibold">
+          Price
+          <b> {price} </b>SEK
         </p>
         <div className="flex items-center space-x-2">
+          {/* <p className="font-semibold">Quantity </p> */}
           <button
             onClick={() => addToCart(id, name, price)}
             className="p-2 bg-green-500 text-white"

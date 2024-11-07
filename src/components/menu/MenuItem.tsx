@@ -1,5 +1,5 @@
 import { useContext, useState } from "react";
-import { FiShoppingCart } from "react-icons/fi";
+import { FiArrowDown } from "react-icons/fi";
 import { OrderContext } from "../../context/OrderContext";
 
 type MenuItemProps = {
@@ -35,25 +35,31 @@ const MenuItem = ({
     setOpenItemId(openItemId === id ? null : id);
   };
 
-
-
   return (
-    <li className="container list-type-none space-y-2">
-      <div className="flex flex-col space-x-1 w-[300px]">
+    <li className="container list-type-none space-y-4  pb-4">
+      <section className="flex flex-col space-x-1 w-full max-w-[280px] mx-auto items-center space-y-2">
         <img className="size-20" src={imgUrl} alt={name} />
         <h3 className="text-xl font-semibold">{name}</h3>
         <p>
           <b>Price</b> {price} SEK
         </p>
-        <button onClick={() => addToCart(id, name, price)}>
-          Add to <FiShoppingCart />
+        <button
+          className="border w-full justify-center mx-auto border-slate-200 px-4 py-2"
+          onClick={() => addToCart(id, name, price)}
+        >
+          Add to cart
         </button>
-  
-      </div>
 
-      <button onClick={() => toggleReadMore(id)}>
-        {openItemId === id ? "Close" : "Read more"}
-      </button>
+        <button onClick={() => toggleReadMore(id)}>
+          {openItemId === id ? (
+            "Close"
+          ) : (
+            <p className="flex items-center">
+              Read more <FiArrowDown />
+            </p>
+          )}
+        </button>
+      </section>
 
       {openItemId === id && (
         <>
@@ -61,7 +67,6 @@ const MenuItem = ({
 
           {type === "pizza" && toppings && toppings.length > 0 && (
             <p>
-                    
               <b>Toppings:</b> {toppings.join(", ")}
             </p>
           )}
@@ -70,7 +75,6 @@ const MenuItem = ({
             <p>
               <b>Ingredients: </b> {ingredients.join(", ")}
             </p>
-            
           )}
         </>
       )}

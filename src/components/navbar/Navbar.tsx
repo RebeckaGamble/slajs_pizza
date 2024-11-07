@@ -15,15 +15,17 @@ const Navbar = () => {
   }, 0);
 
   return (
-    <div className="w-full flex h-[60px] items-center justify-between bg-slate-100 px-4">
-      <NavLink to={"/"}>Slajs Pizza</NavLink>
+    <div className="w-full flex h-[60px] items-center justify-between shadow-lg border-b-[0.5px] px-4">
+      <NavLink className="font-semibold" to={"/"}>
+        Slajs Pizza
+      </NavLink>
       <NavLink
         to={"/checkout"}
         aria-label="Cart"
-        className="flex items-center gap-2"
+        className="flex items-center gap-2 relative"
       >
-        <FiShoppingCart />
-        <span className="text-xs text-[#f3929c] font-bold bg-white rounded-full size-5 items-center">
+        <FiShoppingCart size={20} />
+        <span className="text-md absolute top-[-16px] right-[-10px] text-[#cb3443] font-bold">
           {totalAmount}
         </span>
       </NavLink>
