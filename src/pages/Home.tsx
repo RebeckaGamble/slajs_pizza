@@ -2,7 +2,7 @@ import ShowMenu from "../components/menu/ShowMenu";
 
 export default function Home() {
   return (
-    <div>
+    <div className="pt-[60px]">
         <ShowMenu />
     </div>
   );

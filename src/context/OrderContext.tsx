@@ -1,11 +1,5 @@
-import { createContext, useState } from "react";
-
-export type OrderItemProps = {
-  id: string;
-  name: string;
-  quantity: number;
-  price: number;
-}
+import { createContext, useEffect, useState } from "react";
+import { OrderItemProps } from "../types";
 
 type OrderContextType = {
   order: OrderItemProps[];
@@ -14,7 +8,8 @@ type OrderContextType = {
   removeFromCart: (id: string) => void;
   orderHistory: OrderItemProps[][];
   submitOrder: () => void;
-}
+  clearHistory: () => void;
+};
 
 export const OrderContext = createContext<OrderContextType>(null as any);
 
@@ -25,13 +20,13 @@ type ProviderProps = {
 export function OrderProvider({ children }: ProviderProps) {
   const [order, setOrder] = useState<OrderItemProps[]>([]);
   const [orderHistory, setOrderHistory] = useState<OrderItemProps[][]>([]);
-  
+
   const addToCart = (id: string, name: string, price: number) => {
     setOrder((order) => {
       const itemIndex = order.findIndex((order) => order.id === id);
       if (itemIndex !== -1) {
         // Item exists, so update its quantity
-        
+
         const updatedOrder = [...order];
         updatedOrder[itemIndex] = {
           ...updatedOrder[itemIndex],
@@ -63,15 +58,45 @@ export function OrderProvider({ children }: ProviderProps) {
   };
 
   const submitOrder = () => {
-    setOrderHistory((prevHistory) => [...prevHistory, order]);
+    setOrderHistory((prevHistory) => {
+      const updatedHistory = [...prevHistory, order];
+
+      localStorage.setItem("orderHistory", JSON.stringify(updatedHistory));
+
+      return updatedHistory;
+    });
+
     setOrder([]); // Clear the current order
   };
 
+  useEffect(() => {
+    // Check if order history exists in local storage
+    const savedOrderHistory = localStorage.getItem("orderHistory");
+
+    if (savedOrderHistory) {
+      // Parse and set order history from local storage
+      setOrderHistory(JSON.parse(savedOrderHistory));
+    }
+  }, []);
+
+  const clearHistory = () => {
+    setOrderHistory([]); // Clear the history in state
+    localStorage.removeItem("orderHistory"); // Clear the history from local storage
+  };
+
   return (
-    <OrderContext.Provider value={{ order, setOrder, addToCart, removeFromCart, orderHistory, submitOrder }}>
+    <OrderContext.Provider
+      value={{
+        order,
+        setOrder,
+        addToCart,
+        removeFromCart,
+        orderHistory,
+        submitOrder,
+        clearHistory,
+      }}
+    >
       {children}
     </OrderContext.Provider>
   );
 }
-
-
